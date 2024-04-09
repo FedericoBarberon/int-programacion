@@ -18,20 +18,20 @@ h :: Integer -> Integer
 h n = f (g n)
 
 k :: Integer -> Integer
-k n =
-    g
-        (f n)
-        ------------------------------------
+k n = g (f n)
 
-        -- Ejercicio 2
+------------------------------------
 
-        {- a)
-        problema absoluto(x: Z): Z {
-            requiere: {True}
-            asegura: {res = x <-> x >= 0 y res = -x <-> x < 0}
-        }
-        -} absoluto ::
-        Int -> Int
+-- Ejercicio 2
+
+{- a)
+problema absoluto(x: Z): Z {
+    requiere: {True}
+    asegura: {res = x <-> x >= 0 y res = -x <-> x < 0}
+}
+-}
+
+absoluto :: Int -> Int
 absoluto x
     | x >= 0 = x
     | otherwise = -x
