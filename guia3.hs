@@ -1,4 +1,4 @@
--- Ejercicio 1
+-- MARK: Ejercicio 1
 
 -- a)
 f :: Integer -> Integer
@@ -22,7 +22,7 @@ k n = g (f n)
 
 ------------------------------------
 
--- Ejercicio 2
+-- MARK: Ejercicio 2
 
 {- a)
 problema absoluto(x: Z): Z {
@@ -161,7 +161,7 @@ digitoDecenas x = div (mod (abs x) 100 - mod (abs x) 10) 10
 
 ------------------------------------
 
--- Ejercicio 3
+-- MARK: Ejercicio 3
 
 {-
 problema estanRelacionados(a: Z, b: Z): Bool {
@@ -175,7 +175,7 @@ estanRelacionados a b = mod (a * a) (a * b) == 0
 
 ------------------------------------
 
--- Ejercicio 4
+-- MARK: Ejercicio 4
 
 {- a)
 problema prodInt(a: RxR, b: RxR): R {
@@ -273,7 +273,7 @@ invertir (a, b) = (b, a)
 
 ------------------------------------
 
--- Ejercicio 5
+-- MARK: Ejercicio 5
 
 {-
 problema todosMenores(t: ZxZxZ): Bool {
@@ -303,7 +303,7 @@ g' n | even n = div n 2 | otherwise = 3 * n + 1
 
 ------------------------------------
 
--- Ejercicio 6
+-- MARK: Ejercicio 6
 
 {-
 problema bisiesto (año: Z) : Bool {
@@ -317,7 +317,7 @@ bisiesto año = not (mod año 4 /= 0 || (mod año 100 == 0 && mod año 400 /= 0)
 
 ------------------------------------
 
--- Ejercicio 7
+-- MAKR: Ejercicio 7
 
 {-
 problema distanciaManhattan (p: RxRxR, q: RxRxR): R {
@@ -331,7 +331,7 @@ distanciaManhattan (p0, p1, p2) (q0, q1, q2) = abs (p0 - q0) + abs (p1 - q1) + a
 
 ------------------------------------
 
--- Ejercicio 8
+-- MARK: Ejercicio 8
 
 {-
 problema comparar (a: Z, b: Z): Z {
@@ -357,7 +357,7 @@ sumaUltimosDosDigitos x = mod (abs x) 10 + mod (div (abs x) 10) 10
 
 ------------------------------------
 
--- Ejercicio 9
+-- MARK: Ejercicio 9
 
 -- a)
 
