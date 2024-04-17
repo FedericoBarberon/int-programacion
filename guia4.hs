@@ -105,3 +105,99 @@ esCapicua_aux n i
 
 esCapicua :: Integer -> Bool
 esCapicua n = esCapicua_aux n 1
+
+-- MARK: Ejercicio 14
+
+{-
+problema sumaPotencias(q: Z, n: Z, m: Z): Z {
+    requiere: {q > 0 && n > 0 && m > 0}
+    asegura: {res = la sumatoria de i en 1 hasta n de la sumatoria de j en 1 hasta m de q^(i+j)}
+}
+-}
+
+sumaPotenciasAux :: Integer -> Integer -> Integer -> Integer
+sumaPotenciasAux q i 1 = q^(i+1)
+sumaPotenciasAux q i j = sumaPotenciasAux q i (j-1) + q^(i+j)
+
+sumaPotencias :: Integer -> Integer -> Integer -> Integer
+sumaPotencias q 1 j = sumaPotenciasAux q 1 j
+sumaPotencias q i j = sumaPotencias q (i-1) j + sumaPotenciasAux q i j
+
+-- MARK: Ejercicio 15
+
+{-
+problema sumaRacionales(n: Z, m: Z): R {
+    requiere: {n > 0 && m > 0}
+    asegura: {res = la sumatoria de i en 1 hasta n de la sumatoria de j en 1 hasta m de i/j}
+}
+-}
+
+sumaRacionalesAux :: Integer -> Integer -> Float
+sumaRacionalesAux n 1 = fromIntegral n
+sumaRacionalesAux n m = sumaRacionalesAux n (m-1) + fromIntegral n / fromIntegral m
+
+sumaRacionales :: Integer -> Integer -> Float
+sumaRacionales 1 m = sumaRacionalesAux 1 m
+sumaRacionales n m = sumaRacionales (n-1) m + sumaRacionalesAux n m
+
+--MARK: Ejercicio 16
+
+-- a)
+
+menorDivisorAux :: Integer -> Integer -> Integer
+menorDivisorAux n i
+    | div n i * i == n = i
+    | otherwise = menorDivisorAux n (i+1)
+
+menorDivisor :: Integer -> Integer
+menorDivisor 1 = 1
+menorDivisor n = menorDivisorAux n 2
+
+-- b)
+
+esPrimo :: Integer -> Bool
+esPrimo n = menorDivisor n == n
+
+-- c)
+
+sonCoprimos :: Integer -> Integer -> Bool
+sonCoprimos n m = menorDivisor n /= menorDivisor m
+
+-- d)
+
+nEsimoPrimoAux :: Integer -> Integer -> Integer
+nEsimoPrimoAux n i
+    | esPrimo i && n == 1 = i
+    | esPrimo i = nEsimoPrimoAux (n-1) (i+1)
+    | otherwise = nEsimoPrimoAux n (i+1)
+
+nEsimoPrimo :: Integer -> Integer
+nEsimoPrimo n = nEsimoPrimoAux n 2
+
+-- MARK: Ejercicio 17
+
+esFibonacciAux :: Integer -> Integer -> Bool
+esFibonacciAux n i = fibonacci i == n || fibonacci i < n && esFibonacciAux n (i+1)
+
+esFibonacci :: Integer -> Bool
+esFibonacci n = esFibonacciAux n 0
+
+-- MARK: Ejercicio 18
+
+mayorDigitoParAux :: Integer -> Integer -> Integer -> Integer
+mayorDigitoParAux n i max
+    | i > cantDigitos n = max
+    | mod iDigito 2 == 0 && iDigito > max = mayorDigitoParAux n (i+1) iDigito
+    | otherwise = mayorDigitoParAux n (i+1) max
+    where iDigito = iesimoDigito n i
+
+mayorDigitoPar :: Integer -> Integer
+mayorDigitoPar n = mayorDigitoParAux n 1 (-1)
+
+-- MARK: Ejercicio 19
+
+esSumaInicialDePrimosAux :: Integer -> Integer -> Bool
+esSumaInicialDePrimosAux n i = n == 0 || (n > 0 && esSumaInicialDePrimosAux (n - nEsimoPrimo i) (i+1))
+
+esSumaInicialDePrimos :: Integer -> Bool
+esSumaInicialDePrimos n = esSumaInicialDePrimosAux n 1
