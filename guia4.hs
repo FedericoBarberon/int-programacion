@@ -308,3 +308,56 @@ esSumaInicialDePrimosAux n i = n == 0 || (n > 0 && esSumaInicialDePrimosAux (n -
 
 esSumaInicialDePrimos :: Integer -> Bool
 esSumaInicialDePrimos n = esSumaInicialDePrimosAux n 1
+
+-- MARK: Ejercicio 20
+
+{-
+problema tomaValorMax(n: Z, m: Z): Z {
+    requiere: {n > 0 && m > 0}
+    asegura: {res = max{sumaDivisores(i) | n <= i <= m}}
+}
+
+problema sumaDivisores(n: Z): Z {
+    requiere: {n > 0}
+    asegura: {res = la sumatoria de i en 2 hasta n de if n mod i == 0 then i else 0}
+}
+-}
+
+sumaDivisoresAux :: Integer -> Integer -> Integer
+sumaDivisoresAux n i
+    | i > n = 0
+    | mod n i == 0 = sumaDivisoresAux n (i + 1) + i
+    | otherwise = sumaDivisoresAux n (i + 1)
+
+sumaDivisores :: Integer -> Integer
+sumaDivisores n = sumaDivisoresAux n 2
+
+tomaValorMaxAux :: Integer -> Integer -> Integer -> Integer
+tomaValorMaxAux n m max
+    | n > m = max
+    | sumaDivisores n > sumaDivisores max = tomaValorMaxAux (n + 1) m n
+    | otherwise = tomaValorMaxAux (n + 1) m max
+
+tomaValorMax :: Integer -> Integer -> Integer
+tomaValorMax n m = tomaValorMaxAux n m 0
+
+-- MARK: Ejercicio 21
+
+{-
+problema pitagoras(m: Z, n: Z, r: Z): Z {
+    requiere: {m >= 0 && n >= 0 && r >= 0}
+    asegura: {res = #{(p,q) ∈ ZxZ / 0 <= p <= m && 0 <= q <= n && p^2 + q^2 <= r^2}}
+}
+-}
+
+pitagorasAux :: Integer -> Integer -> Integer -> Integer
+pitagorasAux m 0 r
+    | m ^ 2 <= r ^ 2 = 1
+    | otherwise = 0
+pitagorasAux m n r
+    | m ^ 2 + n ^ 2 <= r ^ 2 = 1 + pitagorasAux m (n - 1) r
+    | otherwise = pitagorasAux m (n - 1) r
+
+pitagoras :: Integer -> Integer -> Integer -> Integer
+pitagoras 0 n r = pitagorasAux 0 n r
+pitagoras m n r = pitagorasAux m n r + pitagoras (m - 1) n r
