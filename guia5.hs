@@ -203,7 +203,7 @@ quitarPrimeraPalabra (c1 : c2 : texto)
 
 palabras :: [Char] -> [[Char]]
 palabras [] = []
-palabras texto = [primeraPalabra texto] ++ palabras (quitarPrimeraPalabra texto)
+palabras texto = primeraPalabra texto : palabras (quitarPrimeraPalabra texto)
 
 -- 4)
 
@@ -247,3 +247,46 @@ aplanarConNBlancos texto n = aplanarConNCaracteres texto ' ' n
 -- b)
 
 -- El agregar el renombre de tipos type Texto = [Char] solo cambia la signatura de las funciones
+
+-- MARK: Ejercicio 5
+
+-- 1)
+
+sumatoriaHastaN :: (Num t) => [t] -> Integer -> t
+sumatoriaHastaN [] _ = 0
+sumatoriaHastaN (x : xs) n
+    | n == 0 = x
+    | otherwise = x + sumatoriaHastaN xs (n - 1)
+
+sumaAcumulada :: (Num t) => [t] -> [t]
+sumaAcumulada [] = []
+sumaAcumulada xs = sumaAcumuladaAux xs 0
+  where
+    sumaAcumuladaAux xs i
+        | i == longitud xs = []
+        | otherwise = sumatoriaHastaN xs i : sumaAcumuladaAux xs (i + 1)
+
+-- 2)
+
+-- Funciones necesarias de la guia 4
+
+menorDivisorAux :: Integer -> Integer -> Integer
+menorDivisorAux n i
+    | div n i * i == n = i
+    | otherwise = menorDivisorAux n (i + 1)
+
+menorDivisor :: Integer -> Integer
+menorDivisor 1 = 1
+menorDivisor n = menorDivisorAux n 2
+
+--
+
+factoresPrimos :: Integer -> [Integer]
+factoresPrimos 1 = []
+factoresPrimos n = menorFactor : factoresPrimos (div n menorFactor)
+  where
+    menorFactor = menorDivisor n
+
+descomponerEnPrimos :: [Integer] -> [[Integer]]
+descomponerEnPrimos [] = []
+descomponerEnPrimos (x : xs) = factoresPrimos x : descomponerEnPrimos xs
