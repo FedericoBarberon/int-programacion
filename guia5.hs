@@ -36,7 +36,7 @@ pertenece e (x : xs) = e == x || pertenece e xs
 todosIguales :: (Eq t) => [t] -> Bool
 todosIguales [] = True
 todosIguales (_ : []) = True
-todosIguales (x : xs) = x == head xs && todosIguales xs
+todosIguales (x1 : x2 : xs) = x1 == x2 && todosIguales (x2 : xs)
 
 -- 3)
 
@@ -163,15 +163,87 @@ ordenar list = ordenar (quitar max list) ++ [max]
 sacarBlancosRepetidos :: [Char] -> [Char]
 sacarBlancosRepetidos [] = []
 sacarBlancosRepetidos (c : []) = [c]
-sacarBlancosRepetidos (c : chList)
-    | c == ' ' && head chList == ' ' = sacarBlancosRepetidos chList
-    | otherwise = c : sacarBlancosRepetidos chList
+sacarBlancosRepetidos (c1 : c2 : texto)
+    | c1 == ' ' && c2 == ' ' = sacarBlancosRepetidos (c2 : texto)
+    | otherwise = c1 : sacarBlancosRepetidos (c2 : texto)
 
 -- 2)
 
 contarPalabras :: [Char] -> Integer
 contarPalabras [] = 0
 contarPalabras (c : []) | c /= ' ' = 1 | otherwise = 0
-contarPalabras (c : chList)
-    | c /= ' ' && head chList == ' ' = 1 + contarPalabras chList
-    | otherwise = contarPalabras chList
+contarPalabras (c1 : c2 : texto)
+    | c1 /= ' ' && c2 == ' ' = 1 + contarPalabras (c2 : texto)
+    | otherwise = contarPalabras (c2 : texto)
+
+-- 3)
+
+quitarEspaciosIniciales :: [Char] -> [Char]
+quitarEspaciosIniciales [] = []
+quitarEspaciosIniciales (c : []) | c == ' ' = [] | otherwise = [c]
+quitarEspaciosIniciales (c : texto)
+    | c == ' ' = quitarEspaciosIniciales texto
+    | otherwise = c : texto
+
+primeraPalabra :: [Char] -> [Char]
+primeraPalabra [] = []
+primeraPalabra (c : []) | c == ' ' = [] | otherwise = [c]
+primeraPalabra (c1 : c2 : texto)
+    | c1 == ' ' = primeraPalabra (c2 : texto)
+    | c2 == ' ' = [c1]
+    | otherwise = c1 : primeraPalabra (c2 : texto)
+
+quitarPrimeraPalabra :: [Char] -> [Char]
+quitarPrimeraPalabra [] = []
+quitarPrimeraPalabra (c : []) = []
+quitarPrimeraPalabra (c1 : c2 : texto)
+    | c1 == ' ' = quitarPrimeraPalabra (c2 : texto)
+    | c2 == ' ' = quitarEspaciosIniciales (c2 : texto)
+    | otherwise = quitarPrimeraPalabra (c2 : texto)
+
+palabras :: [Char] -> [[Char]]
+palabras [] = []
+palabras texto = [primeraPalabra texto] ++ palabras (quitarPrimeraPalabra texto)
+
+-- 4)
+
+palabraMasLargaAux :: [[Char]] -> [Char] -> [Char]
+palabraMasLargaAux [] palabraMax = palabraMax
+palabraMasLargaAux (palabra : palabrasRestantes) palabraMax
+    | longitud palabra > longitud palabraMax = palabraMasLargaAux palabrasRestantes palabra
+    | otherwise = palabraMasLargaAux palabrasRestantes palabraMax
+
+palabraMasLarga :: [Char] -> [Char]
+palabraMasLarga [] = []
+palabraMasLarga texto = palabraMasLargaAux (palabras texto) []
+
+-- Funciones generales para ejercicios 5,6 y 7
+
+repetirCaracterNVeces :: Char -> Integer -> [Char]
+repetirCaracterNVeces c 0 = []
+repetirCaracterNVeces c n = c : repetirCaracterNVeces c (n - 1)
+
+aplanarConNCaracteres :: [[Char]] -> Char -> Integer -> [Char]
+aplanarConNCaracteres [] _ _ = []
+aplanarConNCaracteres (palabra : []) _ _ = palabra
+aplanarConNCaracteres (palabra : palabrasRestantes) c n =
+    palabra ++ repetirCaracterNVeces c n ++ aplanarConNCaracteres palabrasRestantes c n
+
+-- 6)
+
+aplanar :: [[Char]] -> [Char]
+aplanar texto = aplanarConNCaracteres texto ' ' 0
+
+-- 7)
+
+aplanarConBlancos :: [[Char]] -> [Char]
+aplanarConBlancos texto = aplanarConNCaracteres texto ' ' 1
+
+-- 8)
+
+aplanarConNBlancos :: [[Char]] -> Integer -> [Char]
+aplanarConNBlancos texto n = aplanarConNCaracteres texto ' ' n
+
+-- b)
+
+-- El agregar el renombre de tipos type Texto = [Char] solo cambia la signatura de las funciones
