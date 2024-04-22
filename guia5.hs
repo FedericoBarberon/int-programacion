@@ -36,7 +36,7 @@ pertenece e (x : xs) = e == x || pertenece e xs
 todosIguales :: (Eq t) => [t] -> Bool
 todosIguales [] = True
 todosIguales (_ : []) = True
-todosIguales (x : xs) = x == xs !! 0 && todosIguales xs
+todosIguales (x : xs) = x == head xs && todosIguales xs
 
 -- 3)
 
@@ -76,7 +76,6 @@ eliminarRepetidos (x : xs)
 -- 8)
 
 mismosElementosAux :: (Eq t) => [t] -> [t] -> Bool
-mismosElementosAux [] [] = True
 mismosElementosAux [] _ = True
 mismosElementosAux (x : xs) ys = pertenece x ys && mismosElementosAux xs ys
 
@@ -108,7 +107,7 @@ productoria (x : xs) = x * productoria xs
 -- 3)
 
 maximo :: [Integer] -> Integer
-maximo list = maximoAux list (list !! 0)
+maximo list = maximoAux list (head list)
   where
     maximoAux [] max = max
     maximoAux (x : xs) max
@@ -124,12 +123,12 @@ sumarN n (x : xs) = x + n : sumarN n xs
 -- 5)
 
 sumarElPrimero :: [Integer] -> [Integer]
-sumarElPrimero s = sumarN (s !! 0) s
+sumarElPrimero s = sumarN (head s) s
 
 -- 6)
 
 sumarElUltimo :: [Integer] -> [Integer]
-sumarElUltimo s = sumarN (s !! fromIntegral (longitud s - 1)) s
+sumarElUltimo s = sumarN (ultimo s) s
 
 -- 7)
 
@@ -164,10 +163,9 @@ ordenar list = ordenar (quitar max list) ++ [max]
 sacarBlancosRepetidos :: [Char] -> [Char]
 sacarBlancosRepetidos [] = []
 sacarBlancosRepetidos (c : []) = [c]
-sacarBlancosRepetidos (' ' : chList)
-    | chList !! 0 == ' ' = sacarBlancosRepetidos chList
-    | otherwise = ' ' : sacarBlancosRepetidos chList
-sacarBlancosRepetidos (c : chList) = c : sacarBlancosRepetidos chList
+sacarBlancosRepetidos (c : chList)
+    | c == ' ' && head chList == ' ' = sacarBlancosRepetidos chList
+    | otherwise = c : sacarBlancosRepetidos chList
 
 -- 2)
 
@@ -175,5 +173,5 @@ contarPalabras :: [Char] -> Integer
 contarPalabras [] = 0
 contarPalabras (c : []) | c /= ' ' = 1 | otherwise = 0
 contarPalabras (c : chList)
-    | c /= ' ' && chList !! 0 == ' ' = 1 + contarPalabras chList
+    | c /= ' ' && head chList == ' ' = 1 + contarPalabras chList
     | otherwise = contarPalabras chList
