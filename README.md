@@ -10,3 +10,7 @@
 ## Simulacros de Parcial
 
 - [Simulacro de parcial Haskell](/simulacro-parcial-haskell)
+
+## TP
+
+- [TP grupal de Haskell + Testing](/tp)
