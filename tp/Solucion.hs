@@ -50,7 +50,21 @@ cifrarLista ls = cifrarListaAux ls 0
 
 -- EJ 7
 frecuencia :: String -> [Float]
-frecuencia _ = [16.666668, 0.0, 0.0, 0.0, 16.666668, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 33.333336, 0.0, 0.0, 0.0, 0.0, 0.0, 16.666668, 0.0, 16.666668, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+frecuencia [] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+frecuencia s = frecuenciaAux s 0
+  where
+    frecuenciaAux :: String -> Int -> [Float]
+    frecuenciaAux _ 26 = []
+    frecuenciaAux s i = frec : frecuenciaAux s (i + 1)
+      where
+        letraIesima = desplazar 'a' i
+        frec = fromIntegral (cantApariciones letraIesima s * 100) / (fromIntegral (length s))
+
+cantApariciones :: (Eq t) => t -> [t] -> Int
+cantApariciones _ [] = 0
+cantApariciones e (x : xs)
+  | e == x = 1 + cantApariciones e xs
+  | otherwise = cantApariciones e xs
 
 -- Ej 8
 cifradoMasFrecuente :: String -> Int -> (Char, Float)
