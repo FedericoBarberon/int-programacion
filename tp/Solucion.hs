@@ -7,8 +7,8 @@ import Data.Char
 -- https://campus.exactas.uba.ar/pluginfile.php/557895/mod_resource/content/1/validas_tp.pdf
 
 -- Completar!
--- Nombre de grupo: {}
--- Integrante1: { DNI1,apellidoYNombre1}
+-- Nombre de grupo: Los llamados recursivos
+-- Integrante1: 46557940, Barberón Federico Joaquín
 -- Integrante2: { DNI2,apellidoYNombre2}
 -- Integrante3: { DNI3,apellidoYNombre3}
 -- Integrante4: { DNI4,apellidoYNombre4}
@@ -50,21 +50,28 @@ cifrarLista ls = cifrarListaAux ls 0
 
 -- EJ 7
 frecuencia :: String -> [Float]
-frecuencia [] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-frecuencia s = frecuenciaAux s 0
+frecuencia s
+  | cantMinusculas s == 0 = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+  | otherwise = frecuenciaAux s 0
   where
+    cantMinusculasStr = cantMinusculas s
     frecuenciaAux :: String -> Int -> [Float]
     frecuenciaAux _ 26 = []
-    frecuenciaAux s i = frec : frecuenciaAux s (i + 1)
+    frecuenciaAux str i = frec : frecuenciaAux str (i + 1)
       where
-        letraIesima = desplazar 'a' i
-        frec = fromIntegral (cantApariciones letraIesima s * 100) / (fromIntegral (length s))
+        frec = fromIntegral (cantApariciones (desplazar 'a' i) str) / fromIntegral cantMinusculasStr * 100
 
 cantApariciones :: (Eq t) => t -> [t] -> Int
 cantApariciones _ [] = 0
 cantApariciones e (x : xs)
   | e == x = 1 + cantApariciones e xs
   | otherwise = cantApariciones e xs
+
+cantMinusculas :: String -> Int
+cantMinusculas [] = 0
+cantMinusculas (c : str)
+  | esMinuscula c = 1 + cantMinusculas str
+  | otherwise = cantMinusculas str
 
 -- Ej 8
 cifradoMasFrecuente :: String -> Int -> (Char, Float)
