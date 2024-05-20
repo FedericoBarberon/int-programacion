@@ -211,3 +211,27 @@ def eliminar_repetidos(string: str) -> str:
             str_sin_repetidos += string[i]
 
     return str_sin_repetidos
+
+# MARK: Ejercicio 3
+
+def aprobado(notas: list[int]) -> int:
+    todas_aprobadas = todas_materias_aprobadas(notas)
+    promedio_notas = promedio(notas)
+
+    if not todas_aprobadas or promedio_notas < 4:
+        return 3
+    
+    if promedio_notas < 7:
+        return 2
+    
+    return 1
+
+def todas_materias_aprobadas(notas: list[int]) -> bool:
+    for nota in notas:
+        if nota < 4:
+            return False
+    
+    return True
+
+def promedio(notas: list[int]) -> float:
+    return suma_total(notas) / len(notas)
