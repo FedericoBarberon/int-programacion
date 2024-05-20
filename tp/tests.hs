@@ -11,7 +11,8 @@ allTests =
       "cifrar" ~: testSuiteCifrar,
       "descifrar" ~: testSuiteDescifrar,
       "cifrarLista" ~: testSuiteCifrarLista,
-      "frecuencia" ~: testSuiteFrecuencia
+      "frecuencia" ~: testSuiteFrecuencia,
+      "cifradoMasFrecuente" ~: testSuiteCifradoMasFrecuente
     ]
 
 testSuiteEsMinuscula =
@@ -65,3 +66,14 @@ testSuiteFrecuencia =
       "con algunas minusculas" ~: frecuencia "PruEba" ~?= [25.0, 25.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 25.0, 0.0, 0.0, 25.0, 0.0, 0.0, 0.0, 0.0, 0.0],
       "con todas minusculas" ~: frecuencia "probando" ~?= [12.5, 12.5, 0.0, 12.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 12.5, 25.0, 12.5, 0.0, 12.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
     ]
+
+testSuiteCifradoMasFrecuente =
+  test
+    [ "desplazamiento 0" ~: cifradoMasFrecuente "PRUEBa" 0 ~?= ('a', 100.0),
+      "varias letras con misma frecuencia" ~: expectAny (cifradoMasFrecuente "coMPuTAcioN" 3) [('f', 33.333336), ('r', 33.333336)],
+      "una letra con mayor frecuencia" ~: cifradoMasFrecuente "pRobANdo" 5 ~?= ('t', 40.0)
+    ]
+
+-- test aux functions
+
+expectAny actual expected = elem actual expected ~? ("expected any of: " ++ show expected ++ "\n but got: " ++ show actual)
