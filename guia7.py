@@ -122,7 +122,7 @@ def calcular_saldo(movimientos: list[tuple[str,float]]) -> float:
 # 9
 
 def tres_vocales_distintas(palabra: str) -> bool:
-    vocales = ['a','e','i','o','u']
+    vocales: list[chr] = ['a','e','i','o','u']
 
     for c in palabra:
         lower_c = c.lower()
@@ -131,3 +131,83 @@ def tres_vocales_distintas(palabra: str) -> bool:
             vocales.remove(lower_c)
     
     return len(vocales) <= 2
+
+# MARK: Ejercicio 2
+
+# 1
+
+def reemplazar_pares(ls: list[int]):
+    for i in range(len(ls)):
+        if i % 2 == 0:
+            ls[i] = 0
+
+# 2
+
+def reemplazar_pares_2(ls: list[int]) -> list[int]:
+    new_list: list[int] = ls.copy()
+    reemplazar_pares(new_list)
+
+    return new_list
+
+# 3
+
+def eliminar_vocales(texto: str) -> str:
+    texto_sin_vocales: str = ""
+    vocales: list[chr] = ['a', 'e', 'i', 'o', 'u']
+
+    for c in texto:
+        if not c in vocales:
+            texto_sin_vocales += c
+    
+    return texto_sin_vocales
+
+# 4
+
+def reemplaza_vocales(texto: str) -> str:
+    texto_sin_vocales: str = ""
+    vocales: list[chr] = ['a', 'e', 'i', 'o', 'u']
+
+    for i in range(len(texto)):
+        if texto[i] in vocales:
+            texto_sin_vocales += '_'
+        else:
+            texto_sin_vocales += texto[i]
+    
+    return texto_sin_vocales
+
+# 5
+
+def da_vuelta_str(string: str) -> str:
+    str_al_reves: str = ""
+
+    for i in range(len(string) - 1, -1, -1):
+        str_al_reves += string[i]
+    
+    return str_al_reves
+
+def da_vuelta_str2(string: str) -> str:
+    str_al_reves: str = ""
+    longitud: int = len(string)
+
+    for i in range(longitud):
+        str_al_reves += string[longitud - 1 - i]
+    
+    return str_al_reves
+
+# 6
+
+def eliminar_repetidos(string: str) -> str:
+    str_sin_repetidos: str = ""
+
+    for i in range(len(string) - 1):
+        esta_repetida: bool = False
+
+        for j in range(i+1, len(string)):
+            if string[i] == string [j]:
+                esta_repetida = True
+                break
+
+        if not esta_repetida:
+            str_sin_repetidos += string[i]
+
+    return str_sin_repetidos
