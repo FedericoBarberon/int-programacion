@@ -235,3 +235,68 @@ def todas_materias_aprobadas(notas: list[int]) -> bool:
 
 def promedio(notas: list[int]) -> float:
     return suma_total(notas) / len(notas)
+
+# MARK: Ejercicio 4
+
+# 1
+
+def obtener_estudiantes() -> list[str]:
+    estudiantes: list[str] = []
+
+    nombre: str = ""
+
+    while nombre != "listo":
+        if nombre != "":
+            estudiantes.append(nombre)
+        
+        nombre = input("Ingrese el nombre de un estudiante: ")
+    
+    return estudiantes
+
+# 2
+
+def obtener_historial() -> list[tuple[chr, float]]:
+    opc: chr = ''
+    historial: list[tuple[chr, float]] = []
+    creditos: float = 0
+
+    print("Bienvenido a su billetera electrónica\n")
+    
+    while opc != 'X':
+        imprimir_menu(creditos)
+        opc = obtener_opcion()
+
+        if opc == 'C':
+            monto: float = float(input("\nMonto a cargar: "))
+            creditos += monto
+            historial.append(('C', monto))
+
+            print("\n-- Operación realizada con éxito --\n")
+        elif opc == 'D': 
+            monto: float = float(input("\nMonto a descontar: "))
+
+            if (monto > creditos):
+                print("\nCreditos insuficientes\n")
+                continue
+
+            creditos -= monto
+            historial.append(('D', monto))
+
+            print("\n-- Operación realizada con éxito --\n")
+    
+    return historial
+
+def obtener_opcion() -> chr:
+    opc: chr = ''
+    opc_validas: list[chr] = ['C', 'D', 'X']
+
+    while not opc in opc_validas:
+        opc = input("\nIngrese una opción: ").upper()
+    
+    return opc
+
+def imprimir_menu(creditos: float):
+    print(f"Operaciones\t\tCreditos: {creditos}\n")
+    print("C - Cargar créditos")
+    print("D - Descontar créditos")
+    print("X - Finalizar la simualción")
