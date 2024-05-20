@@ -50,11 +50,11 @@ cifrarLista ls = cifrarListaAux ls 0
 
 -- EJ 7
 frecuencia :: String -> [Float]
-frecuencia s
-  | cantMinusculas s == 0 = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-  | otherwise = frecuenciaAux s 0
+frecuencia str
+  | cantMinusculas str == 0 = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+  | otherwise = frecuenciaAux str 0
   where
-    cantMinusculasStr = cantMinusculas s
+    cantMinusculasStr = cantMinusculas str
     frecuenciaAux :: String -> Int -> [Float]
     frecuenciaAux _ 26 = []
     frecuenciaAux str i = frec : frecuenciaAux str (i + 1)
@@ -75,7 +75,18 @@ cantMinusculas (c : str)
 
 -- Ej 8
 cifradoMasFrecuente :: String -> Int -> (Char, Float)
-cifradoMasFrecuente _ _ = ('o', 33.333336)
+cifradoMasFrecuente str n = obtenerLetraMasFrecuente (frecuencia (cifrar str n))
+
+obtenerLetraMasFrecuente :: [Float] -> (Char, Float)
+obtenerLetraMasFrecuente (frecDeA : frecuencia) = obtenerLetraMasFrecuenteAux frecuencia 'b' ('a', frecDeA)
+  where
+    obtenerLetraMasFrecuenteAux :: [Float] -> Char -> (Char, Float) -> (Char, Float)
+    obtenerLetraMasFrecuenteAux [] _ max = max
+    obtenerLetraMasFrecuenteAux (frecActual : frecuencia) letraActual (letraMasFrec, frecMax)
+      | frecActual > frecMax = obtenerLetraMasFrecuenteAux frecuencia sigLetra (letraActual, frecActual)
+      | otherwise = obtenerLetraMasFrecuenteAux frecuencia sigLetra (letraMasFrec, frecMax)
+      where
+        sigLetra = chr (ord letraActual + 1)
 
 -- EJ 9
 esDescifrado :: String -> String -> Bool
