@@ -10,7 +10,8 @@ allTests =
       "desplazar" ~: testSuiteDesplazar,
       "cifrar" ~: testSuiteCifrar,
       "descifrar" ~: testSuiteDescifrar,
-      "cifrarLista" ~: testSuiteCifrarLista
+      "cifrarLista" ~: testSuiteCifrarLista,
+      "frecuencia" ~: testSuiteFrecuencia
     ]
 
 testSuiteEsMinuscula =
@@ -39,16 +40,16 @@ testSuiteDesplazar =
 
 testSuiteCifrar =
   test
-    [ "Mensaje sin cambios posibles" ~: cifrar "ABCDEFG" 2 ~?= "ABCDEFG",
-      "Mensaje con algunos cambios posibles" ~: cifrar "ABcd,Efgh?" 3 ~?= "ABfg,Eijk?",
-      "Mensaje con todos cambios posibles" ~: cifrar "zoqkdabe" (-4) ~?= "vkmgzwxa"
+    [ "mensaje sin cambios posibles" ~: cifrar "ABCDEFG" 2 ~?= "ABCDEFG",
+      "mensaje con algunos cambios posibles" ~: cifrar "ABcd,Efgh?" 3 ~?= "ABfg,Eijk?",
+      "mensaje con todos cambios posibles" ~: cifrar "zoqkdabe" (-4) ~?= "vkmgzwxa"
     ]
 
 testSuiteDescifrar =
   test
-    [ "Mensaje sin cambios posibles" ~: descifrar "ABCDEFG" 2 ~?= "ABCDEFG",
-      "Mensaje con algunos cambios posibles" ~: descifrar "ABfg,Eijk?" 3 ~?= "ABcd,Efgh?",
-      "Mensaje con todos cambios posibles" ~: descifrar "vkmgzwxa" (-4) ~?= "zoqkdabe"
+    [ "mensaje sin cambios posibles" ~: descifrar "ABCDEFG" 2 ~?= "ABCDEFG",
+      "mensaje con algunos cambios posibles" ~: descifrar "ABfg,Eijk?" 3 ~?= "ABcd,Efgh?",
+      "mensaje con todos cambios posibles" ~: descifrar "vkmgzwxa" (-4) ~?= "zoqkdabe"
     ]
 
 testSuiteCifrarLista =
@@ -56,4 +57,11 @@ testSuiteCifrarLista =
     [ "lista vacía" ~: cifrarLista [] ~?= [],
       "lista con un elemento" ~: cifrarLista ["computacion"] ~?= ["computacion"],
       "lista con varios elementos" ~: cifrarLista ["compu", "labo", "intro"] ~?= ["compu", "mbcp", "kpvtq"]
+    ]
+
+testSuiteFrecuencia =
+  test
+    [ "sin minusculas" ~: frecuencia "PRUEBA" ~?= [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+      "con algunas minusculas" ~: frecuencia "PruEba" ~?= [25.0, 25.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 25.0, 0.0, 0.0, 25.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+      "con todas minusculas" ~: frecuencia "probando" ~?= [12.5, 12.5, 0.0, 12.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 12.5, 25.0, 12.5, 0.0, 12.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
     ]
