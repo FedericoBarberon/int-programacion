@@ -6,6 +6,7 @@
 - [Guía 4](/guia4.hs)
 - [Guía 5](/guia5.hs)
 - [Guía 6](/guia6.py)
+- [Guía 7](/guia7.py)
 
 ## Simulacros de Parcial
 
