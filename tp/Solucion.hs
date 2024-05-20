@@ -89,8 +89,24 @@ obtenerLetraMasFrecuente (frecDeA : frecuencia) = obtenerLetraMasFrecuenteAux fr
         sigLetra = chr (ord letraActual + 1)
 
 -- EJ 9
+-- Aclaración: cisj representa el i-esimo caracter del j-esimo string
 esDescifrado :: String -> String -> Bool
-esDescifrado _ _ = False
+esDescifrado [] [] = True
+esDescifrado (c1s1 : []) (c1s2 : []) = True
+esDescifrado s1 s2
+  | length s1 /= length s2 = False
+  | otherwise = distanciaEntreChars c1s1 c1s2 == distanciaEntreChars c2s1 c2s2 && esDescifrado restoS1 restoS2
+  where
+    (c1s1 : c2s1 : restoS1) = s1
+    (c1s2 : c2s2 : restoS2) = s2
+
+distanciaEntreChars :: Char -> Char -> Int
+distanciaEntreChars a b = absoluto (ord a - ord b)
+
+absoluto :: (Num n, Ord n) => n -> n
+absoluto x
+  | x >= 0 = x
+  | otherwise = -x
 
 -- EJ 10
 todosLosDescifrados :: [String] -> [(String, String)]
