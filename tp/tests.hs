@@ -12,7 +12,8 @@ allTests =
       "descifrar" ~: testSuiteDescifrar,
       "cifrarLista" ~: testSuiteCifrarLista,
       "frecuencia" ~: testSuiteFrecuencia,
-      "cifradoMasFrecuente" ~: testSuiteCifradoMasFrecuente
+      "cifradoMasFrecuente" ~: testSuiteCifradoMasFrecuente,
+      "esDecifrado" ~: testSuiteEsDecifrado
     ]
 
 testSuiteEsMinuscula =
@@ -72,6 +73,14 @@ testSuiteCifradoMasFrecuente =
     [ "desplazamiento 0" ~: cifradoMasFrecuente "PRUEBa" 0 ~?= ('a', 100.0),
       "varias letras con misma frecuencia" ~: expectAny (cifradoMasFrecuente "coMPuTAcioN" 3) [('f', 33.333336), ('r', 33.333336)],
       "una letra con mayor frecuencia" ~: cifradoMasFrecuente "pRobANdo" 5 ~?= ('t', 40.0)
+    ]
+
+testSuiteEsDecifrado =
+  test
+    [ "strings vacíos" ~: esDescifrado "" "" ~?= True,
+      "strings con diferente longitud" ~: esDescifrado "compu" "frpsxwdflrq" ~?= False,
+      "s2 es un cifrado de s1" ~: esDescifrado "compu" "frpsx" ~?= True,
+      "se no es un cifrado de s1" ~: esDescifrado "hola" "chau" ~?= False
     ]
 
 -- test aux functions
