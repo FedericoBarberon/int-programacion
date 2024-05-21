@@ -1,6 +1,6 @@
 import reload
 from random import randint
-from math import ceil
+from math import floor
 import numpy as np
 
 def rel():
@@ -70,7 +70,7 @@ def tiene_palabra_larga(palabras: list[str]) -> bool:
 def palindromo(texto: str) -> bool:
     i: int = 0
 
-    while i < ceil(len(texto) / 2):
+    while i < floor(len(texto) / 2):
         if texto[i] != texto[-i-1]:
             return False
         i += 1
