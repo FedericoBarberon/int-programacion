@@ -1,5 +1,7 @@
 import reload
+from random import randint
 from math import ceil
+import numpy as np
 
 def rel():
     reload.relModule(__name__)
@@ -264,7 +266,7 @@ def obtener_historial() -> list[tuple[chr, float]]:
     
     while opc != 'X':
         imprimir_menu(creditos)
-        opc = obtener_opcion()
+        opc = obtener_opcion_ej2()
 
         if opc == 'C':
             monto: float = float(input("\nMonto a cargar: "))
@@ -286,7 +288,7 @@ def obtener_historial() -> list[tuple[chr, float]]:
     
     return historial
 
-def obtener_opcion() -> chr:
+def obtener_opcion_ej2() -> chr:
     opc: chr = ''
     opc_validas: list[chr] = ['C', 'D', 'X']
 
@@ -300,3 +302,120 @@ def imprimir_menu(creditos: float):
     print("C - Cargar créditos")
     print("D - Descontar créditos")
     print("X - Finalizar la simualción")
+
+# 3
+
+def siete_y_medio():
+    cartas: list[int] = []
+    suma: float = 0
+    opc: chr = ''
+
+    print("Siete y medio")
+
+    while suma <= 7 and opc != 'P':
+        carta = repartir_carta()
+        cartas.append(carta)
+        suma += calcular_valor(carta)
+
+        if suma <= 7:
+            opc = obtener_opcion_ej3()
+            
+    
+    imprimir_resultado(suma)
+
+    return cartas
+
+        
+def obtener_opcion_ej3() -> chr:
+    opc: chr = ''
+    opc_validas = ['S', 'P']
+
+    print("S - Sacar una carta")
+    print("P - Plantarse")
+
+    while not opc in opc_validas:
+        opc = input("\nIngrese una opción: ").upper()
+    
+    return opc
+
+
+def repartir_carta() -> int:
+    carta: int = randint(1, 12)
+
+    while carta == 8 or carta == 9:
+        carta: int = randint(1, 12)
+    
+    print(f"\n--- Obtuviste un {carta} ---\n")
+    return carta
+
+def calcular_valor(carta: int) -> float:
+    figuras: list[int] = [10,11,12]
+
+    if carta in figuras:
+        return 0.5
+    
+    return carta
+
+def imprimir_resultado(suma: float):
+    if suma <= 7.5:
+        print(f"\nGanaste!\tResultado: {suma}")
+        return
+    
+    print(f"\nPerdiste!\tResultado: {suma}")
+
+# MARK: Ejercicio 5
+
+# 1
+
+def pertenece_a_cada_uno_version_1(s: list[list[int]], e: int, res: list[bool]):
+    for i in range(len(s)):
+        res.insert(i, pertenece(s[i], e))
+
+# 2
+
+def pertenece_a_cada_uno_version_2(s: list[list[int]], e: int, res: list[bool]):
+    res.clear()
+
+    for i in range(len(s)):
+        res.insert(i, pertenece(s[i], e))
+
+# 3
+
+def es_matriz(s: list[list[int]]) -> bool:
+    len_filas = len(s[0])
+
+    if len(s) == 0 or len_filas == 0:
+        return False
+
+    for fila in s:
+        if len(fila) != len_filas:
+            return False
+    
+    return True
+
+# 4
+
+def filas_ordenadas(matriz: list[list[int]], res: list[bool]):
+    res.clear()
+
+    for fila in matriz:
+        res.append(ordenados(fila))
+
+# 5
+
+def matriz_random_elevada(d: int, p: int) -> list[list[int]]:
+    matriz = np.random.random((d, d))
+
+    for i in range(d):
+        for j in range(d):
+            matriz[i][j] = calcular_valor_de_producto_de_matriz(matriz, i, j)
+    
+    return matriz
+
+def calcular_valor_de_producto_de_matriz(matriz: list[list[int]], i: int, j: int) -> int:
+    suma: int = 0
+
+    for k in range(len(matriz)):
+        suma += matriz[i][k] * matriz[k][j]
+    
+    return suma
