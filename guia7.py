@@ -2,9 +2,9 @@ import reload
 from random import randint
 from math import floor
 import numpy as np
+from reload import RelModule
 
-def rel():
-    reload.relModule(__name__)
+reload = RelModule("guia7").reload
 
 # MARK: Ejercicio 1
 

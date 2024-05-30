@@ -1,4 +1,7 @@
 import math
+from reload import RelModule
+
+reload = RelModule("guia6").reload
 
 # MARK: Ejercicio 1
 
