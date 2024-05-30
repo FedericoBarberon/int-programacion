@@ -1,0 +1,12 @@
+
+Primera línea de texto.
+Segunda línea de texto.
+Tercera línea de texto con una palabra repetida: repetida.
+Cuarta línea de texto.
+
+Quinta línea de texto con un número: #12345.
+Sexta línea de texto.
+Séptima línea con otra palabra repetida: repetida.
+
+¡Hola, mundo!
+

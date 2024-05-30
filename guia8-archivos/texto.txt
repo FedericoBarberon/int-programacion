@@ -1,0 +1,18 @@
+frase al principioo
+# Este es un archivo de ejemplo para ejercicios de lectura en Python.
+# Vamos a practicar con varias funciones para leer archivos.
+
+Primera línea de texto.
+Segunda línea de texto.
+Tercera línea de texto con una palabra repetida: repetida.
+Cuarta línea de texto.
+
+# Comentario adicional para explicar que esta línea está vacía.
+Quinta línea de texto con un número: #12345.
+Sexta línea de texto.
+Séptima línea con otra palabra repetida: repetida.
+
+# Última línea con un saludo.
+¡Hola, mundo!
+
+# Fin del archivo de ejemplo.

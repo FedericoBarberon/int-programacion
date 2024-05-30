@@ -1,0 +1,16 @@
+# Fin del archivo de ejemplo.
+¡Hola, mundo!
+# Última línea con un saludo.
+
+Séptima línea con otra palabra repetida: repetida.
+Sexta línea de texto.
+Quinta línea de texto con un número: #12345.
+# Comentario adicional para explicar que esta línea está vacía.
+
+Cuarta línea de texto.
+Tercera línea de texto con una palabra repetida: repetida.
+Segunda línea de texto.
+Primera línea de texto.
+
+# Vamos a practicar con varias funciones para leer archivos.
+# Este es un archivo de ejemplo para ejercicios de lectura en Python.
