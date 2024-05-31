@@ -27,7 +27,16 @@ def existe_palabra(palabra: str, nombre_archivo: str) -> bool:
     res: bool = False
 
     for linea in lineas:
-        if palabra in obtener_palabras(linea):
+        if pertenece(palabra, obtener_palabras(linea)):
+            res = True
+    
+    return res
+
+def pertenece(elem, list: list) -> bool:
+    res: bool = False
+
+    for x in list:
+        if x == elem:
             res = True
     
     return res
@@ -180,9 +189,9 @@ def obtener_lista_lu(filas: list[str]) -> list[str]:
     lista_lu: list[str] = []
 
     for i in range(1,len(filas)):
-        lu = filas[i].split(',')[0]
+        lu = separar_por(filas[i], ",")[0]
 
-        if not lu in lista_lu:
+        if not pertenece(lu, lista_lu):
             lista_lu.append(lu)
     
     return lista_lu
@@ -196,7 +205,7 @@ def promedio_estudiante(nombre_archivo: str, lu: str) -> float:
     cant_materias: int = 0
 
     for i in range(1, len(filas)):
-        [lu_actual, _, _, nota] = filas[i].split(",")
+        [lu_actual, _, _, nota] = separar_por(filas[i], ",")
 
         if lu_actual == lu:
             suma_notas += float(nota)
@@ -205,6 +214,21 @@ def promedio_estudiante(nombre_archivo: str, lu: str) -> float:
     promedio: float = round(suma_notas / cant_materias, 2)
 
     return promedio
+
+def separar_por(string: str, separador: str) -> list[str]:
+    lista_str: list[str] = []
+    substr: str = ""
+
+    for c in string:
+        if c == separador:
+            lista_str.append(substr)
+            substr = ""
+        else:
+            substr += c
+    
+    lista_str.append(substr)
+
+    return lista_str
 
 # MARK: Pilas: Ejercicio 8
 
@@ -332,10 +356,13 @@ def cantidad_elementos_cola(cola: Cola) -> int:
         cola_aux.put(cola.get())
         cantidad += 1
     
-    while not cola_aux.empty():
-        cola.put(cola_aux.get())
+    mover_cola(cola_aux, cola)
     
     return cantidad
+
+def mover_cola(cola_origen: Cola, cola_destino: Cola):
+    while not cola_origen.empty():
+        cola_destino.put(cola_origen.get())
 
 # MARK: Ejercicio 15
 
@@ -352,8 +379,7 @@ def buscar_el_maximo_cola(cola: Cola[int]) -> int:
 
         cola_aux.put(elem)
      
-    while not cola_aux.empty():
-        cola.put(cola_aux.get())
+    mover_cola(cola_aux, cola)
 
     return max
 
@@ -383,22 +409,10 @@ def jugar_carton_de_bingo(carton: list[int], bolillero: Cola[int]) -> int:
         cantidad_jugadas += 1
         bolillero_aux.put(num)
 
-    while not bolillero.empty():
-        bolillero_aux.put(bolillero.get())
-    
-    while not bolillero_aux.empty():
-        bolillero.put(bolillero_aux.get())
+    mover_cola(bolillero, bolillero_aux) # Termino de pasar los elementos restantes del bolillero a bolillero_aux
+    mover_cola(bolillero_aux, bolillero)
     
     return cantidad_jugadas
-
-def pertenece(elem, list: list) -> bool:
-    res: bool = False
-
-    for x in list:
-        if x == elem:
-            res = True
-    
-    return res
 
 # MARK: Ejercicio 17
 
@@ -414,8 +428,7 @@ def n_pacientes_urgentes(pedidos_atencion: Cola[tuple[int, str, str]]) -> int:
         
         pedidos_atencion_aux.put(pedido)
     
-    while not pedidos_atencion_aux.empty():
-        pedidos_atencion.put(pedidos_atencion_aux.get())
+    mover_cola(pedidos_atencion_aux, pedidos_atencion)
     
     return cantidad_pacientes_urgentes
 
@@ -449,7 +462,6 @@ def atencion_a_clientes(cola_clientes: Cola[tuple[str, int, bool, bool]]) -> Col
         while not cola.empty():
             cola_ordenada.put(cola.get())
     
-    while not cola_clientes_aux.empty():
-        cola_clientes.put(cola_clientes_aux.get())
+    mover_cola(cola_clientes_aux, cola_clientes)
     
     return cola_ordenada
