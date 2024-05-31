@@ -2,6 +2,11 @@ from reload import RelModule
 
 reload = RelModule("guia8").reload
 
+base_path: str = "guia8-archivos/"
+
+def get_full_path(nombre_archivo: str):
+    return base_path + nombre_archivo
+
 
 # MARK: Archivos: Ejercicio 1
 
@@ -21,14 +26,10 @@ def contar_lineas(nombre_archivo: str) -> int:
 
 def existe_palabra(palabra: str, nombre_archivo: str) -> bool:
     file = open(nombre_archivo, 'r', encoding="utf-8")
-    lineas = file.readlines()
+    contenido: str = file.read()
     file.close()
 
-    res: bool = False
-
-    for linea in lineas:
-        if pertenece(palabra, obtener_palabras(linea)):
-            res = True
+    res: bool = pertenece(palabra, obtener_palabras(contenido))
     
     return res
 
@@ -47,7 +48,7 @@ def obtener_palabras(texto: str) -> list[str]:
     palabra_actual: str = ""
 
     for i in range(len(chars)):
-        if chars[i] == ' ' or i == len(chars) - 1:
+        if chars[i] == ' ' or chars[i] == '\n' or i == len(chars) - 1:
             if palabra_actual != "":
                 palabras.append(palabra_actual)
             palabra_actual = ""
@@ -60,17 +61,14 @@ def obtener_palabras(texto: str) -> list[str]:
 
 def cantidad_apariciones(nombre_archivo: str, palabra: str) -> int:
     file = open(nombre_archivo, 'r', encoding="utf-8")
-    lineas: list[str] = file.readlines()
+    contenido: str = file.read()
     file.close()
     
     cantidad: int = 0
 
-    for linea in lineas:
-        palabras: list[str] = obtener_palabras(linea)
-
-        for palabra_actual in palabras:
-            if palabra == palabra_actual:
-                cantidad += 1
+    for palabra_actual in obtener_palabras(contenido):
+        if palabra == palabra_actual:
+            cantidad += 1
     
     return cantidad
 
@@ -465,3 +463,102 @@ def atencion_a_clientes(cola_clientes: Cola[tuple[str, int, bool, bool]]) -> Col
     mover_cola(cola_clientes_aux, cola_clientes)
     
     return cola_ordenada
+
+# MARK: Diccionarios: Ejercicio 19
+
+def agrupar_por_longitud(nombre_archivo: str) -> dict[int, int]:
+    file = open(nombre_archivo, 'r', encoding="utf-8")
+    contenido: str = file.read()
+    file.close()
+
+    grupo_por_longitud: dict[int, int] = {}
+
+    for palabra in obtener_palabras(contenido):
+        longitud: int = len(palabra)
+
+        if grupo_por_longitud.get(longitud) == None:
+            grupo_por_longitud[longitud] = 1
+        else:
+            grupo_por_longitud[longitud] += 1
+    
+    return grupo_por_longitud
+
+# MARK: Ejercicio 20
+
+def calcular_promedio_por_estudiante_dict(nombre_archivo: str) -> dict[str, float]:
+    file = open(nombre_archivo, "r", encoding="utf-8")
+    lineas: list[str] = file.readlines()
+    file.close()
+
+    lista_lu: list[str] = obtener_lista_lu(lineas)
+
+    promedios: dict[str, int] = {}
+
+    for lu in lista_lu:
+        promedios[lu] = promedio_estudiante(nombre_archivo, lu)
+    
+    return promedios
+
+# MARK: Ejercicio 21
+
+def la_palabra_mas_frecuente(nombre_archivo: str) -> str:
+    file = open(nombre_archivo, "r", encoding="utf-8")
+    contenido: str = file.read()
+    file.close()
+
+    palabras: list[str] = obtener_palabras(contenido)
+
+    apariciones_palabras: dict[str, int] = {}
+
+    for palabra in palabras:
+        if apariciones_palabras.get(palabra) == None:
+            apariciones_palabras[palabra] = 1
+        else:
+            apariciones_palabras[palabra] += 1
+    
+    palabra_mas_frecuente: tuple[str, int] = (palabras[0], apariciones_palabras[palabras[0]])
+
+    for palabra, apariciones in apariciones_palabras.items():
+        if apariciones > palabra_mas_frecuente[1]:
+            palabra_mas_frecuente = (palabra, apariciones)
+    
+    return palabra_mas_frecuente[0]
+
+# MARK: Ejercicio 22
+
+historiales: dict[str, Pila[str]] = {}
+
+def visitar_sitio(historiales: dict[str, Pila[str]], usuario: str, sitio: str):
+    if historiales.get(usuario) == None:
+        historial_nuevo: Pila = Pila()
+        historial_nuevo.put(sitio)
+        historiales[usuario] = historial_nuevo
+    else:
+        historiales[usuario].put(sitio)
+
+def navegar_atras(historiales: dict[str, Pila[str]], usuario: str):
+    if historiales[usuario] != None and not historiales[usuario].empty():
+        historiales[usuario].get()
+
+# MARK: Ejercicio 23
+
+inventario: dict[str, dict[str, float]] = {}
+
+def agregar_producto(inventario: dict[str, dict[str, float]], nombre: str, precio: float, cantidad: int):
+    inventario[nombre] = {"Precio": precio, "Cantidad": cantidad}
+
+def actualizar_stock(inventario: dict[str, dict[str, float]], nombre: str, cantidad: int):
+    if inventario[nombre] != None:
+        inventario[nombre]["Cantidad"] = cantidad
+
+def actualizar_precios(inventario: dict[str, dict[str, float]], nombre: str, precio: float):
+    if inventario[nombre] != None:
+        inventario[nombre]["Precio"] = precio
+
+def calcular_valor_inventario(inventario: dict[str, dict[str, float]]) -> float:
+    valor: float = 0
+
+    for producto in inventario.values():
+        valor += producto["Precio"] * producto["Cantidad"]
+    
+    return valor
