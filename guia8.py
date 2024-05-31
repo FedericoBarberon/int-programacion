@@ -1,8 +1,6 @@
 from reload import RelModule
-import os
 
 reload = RelModule("guia8").reload
-os.chdir("./guia8-archivos")
 
 
 # MARK: Archivos: Ejercicio 1
@@ -314,3 +312,144 @@ def evaluar_expresion(expresion: str) -> float:
 # MARK: Colas: Ejercicio 13
 
 from queue import Queue as Cola
+
+def generar_nros_al_azar_cola(cantidad: int, desde: int, hasta: int) -> Cola[int]:
+    cola: Cola = Cola()
+
+    while cantidad > 0:
+        cola.put(random.randint(desde, hasta))
+        cantidad -= 1
+    
+    return cola
+
+# MARK: Ejercicio 14
+
+def cantidad_elementos_cola(cola: Cola) -> int:
+    cola_aux: Cola = Cola()
+    cantidad: int = 0
+
+    while not cola.empty():
+        cola_aux.put(cola.get())
+        cantidad += 1
+    
+    while not cola_aux.empty():
+        cola.put(cola_aux.get())
+    
+    return cantidad
+
+# MARK: Ejercicio 15
+
+def buscar_el_maximo_cola(cola: Cola[int]) -> int:
+    cola_aux: Cola = Cola()
+    max = cola.get()
+    cola_aux.put(max)
+
+    while not cola.empty():
+        elem = cola.get()
+
+        if elem > max:
+            max = elem
+
+        cola_aux.put(elem)
+     
+    while not cola_aux.empty():
+        cola.put(cola_aux.get())
+
+    return max
+
+# MARK: Ejercicio 16
+
+def armar_secuencia_bingo() -> Cola[int]:
+    bolillero: Cola[int] = Cola(100)
+    numeros_al_azar: list[int] = list(range(100))
+    random.shuffle(numeros_al_azar)
+
+    for num in numeros_al_azar:
+        bolillero.put(num)
+    
+    return bolillero
+
+def jugar_carton_de_bingo(carton: list[int], bolillero: Cola[int]) -> int:
+    cantidad_aciertos: int = 0
+    cantidad_jugadas: int = 0
+    bolillero_aux: Cola = Cola(100)
+
+    while cantidad_aciertos < 12:
+        num: int = bolillero.get()
+
+        if pertenece(num, carton):
+            cantidad_aciertos += 1
+        
+        cantidad_jugadas += 1
+        bolillero_aux.put(num)
+
+    while not bolillero.empty():
+        bolillero_aux.put(bolillero.get())
+    
+    while not bolillero_aux.empty():
+        bolillero.put(bolillero_aux.get())
+    
+    return cantidad_jugadas
+
+def pertenece(elem, list: list) -> bool:
+    res: bool = False
+
+    for x in list:
+        if x == elem:
+            res = True
+    
+    return res
+
+# MARK: Ejercicio 17
+
+def n_pacientes_urgentes(pedidos_atencion: Cola[tuple[int, str, str]]) -> int:
+    pedidos_atencion_aux: Cola[tuple[int, str, str]] = Cola()
+    cantidad_pacientes_urgentes: int = 0
+
+    while not pedidos_atencion.empty():
+        pedido: tuple[int, str, str] = pedidos_atencion.get()
+
+        if pedido[0] <= 3:
+            cantidad_pacientes_urgentes += 1
+        
+        pedidos_atencion_aux.put(pedido)
+    
+    while not pedidos_atencion_aux.empty():
+        pedidos_atencion.put(pedidos_atencion_aux.get())
+    
+    return cantidad_pacientes_urgentes
+
+# MARK: Ejercicio 18
+
+def atencion_a_clientes(cola_clientes: Cola[tuple[str, int, bool, bool]]) -> Cola[tuple[str, int, bool, bool]]:
+    cola_clientes_aux: Cola[tuple[str, int, bool, bool]] = Cola()
+
+    subgrupos_colas: list[Cola[tuple[str, int, bool, bool]]] = [Cola(), Cola(), Cola()] # lista con subgrupos
+    con_prioridad, con_cuenta_preferencial, resto = 0, 1, 2 # enum de cada subgrupo
+
+    cola_ordenada: Cola[tuple[str, int, bool, bool]] = Cola()
+
+    while not cola_clientes.empty():
+        cliente = cola_clientes.get()
+
+        tiene_prioridad: bool = cliente[3]
+        tiene_cuenta_preferencial: bool = cliente[2]
+
+        if tiene_prioridad:
+            subgrupos_colas[con_prioridad].put(cliente)
+        elif tiene_cuenta_preferencial:
+            subgrupos_colas[con_cuenta_preferencial].put(cliente)
+        else:
+            subgrupos_colas[resto].put(cliente)
+        
+        cola_clientes_aux.put(cliente)
+
+    
+    for cola in subgrupos_colas:
+        while not cola.empty():
+            cola_ordenada.put(cola.get())
+    
+    while not cola_clientes_aux.empty():
+        cola_clientes.put(cola_clientes_aux.get())
+    
+    return cola_ordenada
