@@ -215,7 +215,7 @@ from queue import LifoQueue as Pila
 import random
 
 def generar_nros_al_azar(cantidad: int, desde: int, hasta: int) -> Pila[int]:
-    pila = Pila()
+    pila: Pila = Pila()
 
     while cantidad > 0:
         pila.put(random.randint(desde, hasta))
@@ -226,7 +226,7 @@ def generar_nros_al_azar(cantidad: int, desde: int, hasta: int) -> Pila[int]:
 # MARK: Ejericio 9
 
 def cantidad_elementos(pila: Pila) -> int:
-    pila_aux = Pila()
+    pila_aux: Pila = Pila()
     cantidad: int = 0
 
     while not pila.empty():
@@ -244,7 +244,7 @@ def mover_pila(pila_origen: Pila, pila_destino: Pila):
 # MARK: Ejercicio 10
 
 def buscar_el_maximo(pila: Pila[int]) -> int:
-    pila_aux = Pila()
+    pila_aux: Pila = Pila()
     max: int = pila.get()
     pila_aux.put(max)
 
@@ -264,7 +264,7 @@ def buscar_el_maximo(pila: Pila[int]) -> int:
 
 def esta_bien_balanceada(operacion: str) -> bool:
     res: bool = True
-    parentesis = Pila()
+    parentesis: Pila = Pila()
 
     for i in range(len(operacion)):
         if operacion[i] == '(':
@@ -283,7 +283,7 @@ def esta_bien_balanceada(operacion: str) -> bool:
 # MARK: Ejercicio 12
 
 def evaluar_expresion(expresion: str) -> float:
-    operandos = Pila()
+    operandos: Pila = Pila()
 
     for op in expresion.split(" "):
         if op == '+':
