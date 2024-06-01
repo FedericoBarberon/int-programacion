@@ -1,4 +1,3 @@
-import reload
 from random import randint
 from math import floor
 import numpy as np
@@ -93,15 +92,10 @@ def fortaleza_de_contraseña(contraseña: str) -> str:
     for c in contraseña:
         if c >= 'a' and c <= 'z':
             tiene_minuscula = True
-            continue
-
-        if c >= 'A' and c <= 'Z':
+        elif c >= 'A' and c <= 'Z':
             tiene_mayuscula = True
-            continue
-
-        if c >= '0' and c <= '9':
+        elif c >= '0' and c <= '9':
             tiene_digito_numerico = True
-            continue
     
     if tiene_minuscula and tiene_mayuscula and tiene_digito_numerico:
         return "VERDE"
@@ -124,15 +118,24 @@ def calcular_saldo(movimientos: list[tuple[str,float]]) -> float:
 # 9
 
 def tres_vocales_distintas(palabra: str) -> bool:
-    vocales: list[chr] = ['a','e','i','o','u']
+    vocales: list[str] = ['a','e','i','o','u']
 
     for c in palabra:
         lower_c = c.lower()
 
-        if lower_c in vocales:
+        if pertenece(lower_c, vocales):
             vocales.remove(lower_c)
     
     return len(vocales) <= 2
+
+def pertenece(elem, list: list) -> bool:
+    res: bool = False
+
+    for x in list:
+        if x == elem:
+            res = True
+    
+    return res
 
 # MARK: Ejercicio 2
 
@@ -155,10 +158,10 @@ def reemplazar_pares_2(ls: list[int]) -> list[int]:
 
 def eliminar_vocales(texto: str) -> str:
     texto_sin_vocales: str = ""
-    vocales: list[chr] = ['a', 'e', 'i', 'o', 'u']
+    vocales: list[str] = ['a', 'e', 'i', 'o', 'u']
 
     for c in texto:
-        if not c in vocales:
+        if not pertenece(c, vocales):
             texto_sin_vocales += c
     
     return texto_sin_vocales
@@ -167,10 +170,10 @@ def eliminar_vocales(texto: str) -> str:
 
 def reemplaza_vocales(texto: str) -> str:
     texto_sin_vocales: str = ""
-    vocales: list[chr] = ['a', 'e', 'i', 'o', 'u']
+    vocales: list[str] = ['a', 'e', 'i', 'o', 'u']
 
     for i in range(len(texto)):
-        if texto[i] in vocales:
+        if pertenece(texto[i], vocales):
             texto_sin_vocales += '_'
         else:
             texto_sin_vocales += texto[i]
@@ -257,9 +260,9 @@ def obtener_estudiantes() -> list[str]:
 
 # 2
 
-def obtener_historial() -> list[tuple[chr, float]]:
-    opc: chr = ''
-    historial: list[tuple[chr, float]] = []
+def obtener_historial() -> list[tuple[str, float]]:
+    opc: str = ''
+    historial: list[tuple[str, float]] = []
     creditos: float = 0
 
     print("Bienvenido a su billetera electrónica\n")
@@ -288,11 +291,11 @@ def obtener_historial() -> list[tuple[chr, float]]:
     
     return historial
 
-def obtener_opcion_ej2() -> chr:
-    opc: chr = ''
-    opc_validas: list[chr] = ['C', 'D', 'X']
+def obtener_opcion_ej2() -> str:
+    opc: str = ''
+    opc_validas: list[str] = ['C', 'D', 'X']
 
-    while not opc in opc_validas:
+    while not pertenece(opc, opc_validas):
         opc = input("\nIngrese una opción: ").upper()
     
     return opc
@@ -308,7 +311,7 @@ def imprimir_menu(creditos: float):
 def siete_y_medio():
     cartas: list[int] = []
     suma: float = 0
-    opc: chr = ''
+    opc: str = ''
 
     print("Siete y medio")
 
@@ -326,14 +329,14 @@ def siete_y_medio():
     return cartas
 
         
-def obtener_opcion_ej3() -> chr:
-    opc: chr = ''
+def obtener_opcion_ej3() -> str:
+    opc: str = ''
     opc_validas = ['S', 'P']
 
     print("S - Sacar una carta")
     print("P - Plantarse")
 
-    while not opc in opc_validas:
+    while not pertenece(opc, opc_validas):
         opc = input("\nIngrese una opción: ").upper()
     
     return opc

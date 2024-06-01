@@ -44,16 +44,18 @@ def pertenece(elem, list: list) -> bool:
 
 def obtener_palabras(texto: str) -> list[str]:
     palabras: list[str] = []
-    chars: list[str] = list(texto)
     palabra_actual: str = ""
 
-    for i in range(len(chars)):
-        if chars[i] == ' ' or chars[i] == '\n' or i == len(chars) - 1:
+    for char in texto:
+        if char == ' ' or char == '\n':
             if palabra_actual != "":
                 palabras.append(palabra_actual)
             palabra_actual = ""
         else:
-            palabra_actual += chars[i]
+            palabra_actual += char
+    
+    if palabra_actual != "":
+        palabras.append(palabra_actual)
     
     return palabras
 
@@ -92,13 +94,12 @@ def clonar_sin_comentarios(nombre_archivo: str):
 
 def es_comentario(linea: str) -> bool:
     res: bool = False
-    chars: list[str] = list(linea)
     es_el_primero = True
 
-    for i in range(len(chars)):
-        if chars[i] == "#" and es_el_primero:
+    for char in linea:
+        if char == "#" and es_el_primero:
             res = True
-        elif chars[i] != " ":
+        elif char != " ":
             es_el_primero = False
 
     return res
