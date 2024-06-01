@@ -12,5 +12,3 @@ def traducirTexto(nombre_archivo: str, idioma_origen: str, idioma_destino: str):
     output_file = open(f"{idioma_destino}-{nombre_archivo.split('/')[-1]}", "w", encoding="utf-8")
     output_file.write(contenido_traducido)
     output_file.close()
-
-traducirTexto("texto.txt", "es", "zh-cn")
