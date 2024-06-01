@@ -1,0 +1,17 @@
+# This is an example file for reading exercises in Python.
+# We are going to practice with several functions to read files.
+
+First line of text.
+Second line of text.
+Third line of text with a repeated word: repeated.
+Fourth text line.
+
+# Additional comment to explain that this line is empty.
+Fifth line of text with a number: #12345.
+Sixth Text line.
+Seventh line with another repeated word: repeated.
+
+# Last line with greetings.
+Hello World!
+
+# End of the example file.
