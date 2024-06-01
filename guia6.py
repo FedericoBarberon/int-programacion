@@ -13,7 +13,7 @@ def imprimir_hola_mundo():
 # 2
 
 def imprimir_un_verso():
-    print("")
+    print("I've been through the desert on a horse with no name\nIt felt good to be out of the rain\nIn the desert, you can't your name\n'Cause there ain't no one for to give you no pain\nLa, la, la, la-la-la-la-la, la-la-la, la, la\nLa, la, la, la-la-la-la-la, la-la-la, la, la")
 
 # 3
 
@@ -165,7 +165,7 @@ problema lindo_nombre(in nombre: String): String {
 """
 
 def lindo_nombre(nombre: str) -> str:
-    if len(str) >= 5:
+    if len(nombre) >= 5:
         return "Tu nombre tiene muchas letras!"
     
     return "Tu nombre tiene menos de 5 caracteres"
