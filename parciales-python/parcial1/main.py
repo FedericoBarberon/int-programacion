@@ -58,16 +58,10 @@ def valores_extremos(cotizaciones: dict[str, list[tuple[int, float]]]) -> dict[s
 
 def es_sudoku_valido(sudoku: list[list[int]]) -> bool:
     es_valido: bool = True
-
-    if len(sudoku) != 9:
-        es_valido = False
     
     i: int = 0
 
     while es_valido and i < 9:
-        if len(sudoku[i]) != 9:
-            es_valido = False
-        
         nums_fila: list[int] = []
         nums_columna: list[int] = []
 
