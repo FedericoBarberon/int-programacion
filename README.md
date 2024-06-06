@@ -9,6 +9,7 @@
 - [Guía 7](/guia7.py)
 - [Guía 8](/guia8.py)
 
-## Simulacros de Parcial
+## Simulacros de parciales y parciales antiguos
 
 - [Simulacro de parcial Haskell](/simulacro-parcial-haskell)
+- [Parcial 1 de Python](/parciales-python/parcial1)
