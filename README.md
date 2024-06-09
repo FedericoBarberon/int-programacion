@@ -13,3 +13,4 @@
 
 - [Simulacro de parcial Haskell](/simulacro-parcial-haskell)
 - [Parcial 1 de Python](/parciales-python/parcial1)
+- [Parcial 2 de Python](/parciales-python/parcial2)
